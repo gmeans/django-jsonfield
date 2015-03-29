@@ -95,9 +95,10 @@ class JSONFieldBase(six.with_metaclass(SubfieldBase, models.Field)):
 
     def get_db_prep_value(self, value, connection, prepared=False):
         """Convert JSON object to a string"""
-        if self.null and value is None:
-            return None
-        return json.dumps(value, **self.dump_kwargs)
+        if value:
+            return json.dumps(value, **self.dump_kwargs)
+
+        return value  
 
     def value_to_string(self, obj):
         value = self._get_val_from_obj(obj)
